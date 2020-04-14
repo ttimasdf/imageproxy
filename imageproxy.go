@@ -222,7 +222,7 @@ func (p *Proxy) serveImage(w http.ResponseWriter, r *http.Request) {
 	}
 	if resp.ContentLength != 0 && !contentTypeMatches(p.ContentTypes, contentType) {
 		p.logf("content-type not allowed: %q", contentType)
-		http.Error(w, msgNotAllowed, http.StatusForbidden)
+		http.Redirect(w, r, actualReq.URL.String(), http.StatusSeeOther)
 		return
 	}
 	w.Header().Set("Content-Type", contentType)
